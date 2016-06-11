@@ -29,9 +29,14 @@ class Notifications
 
   handleSuccess: (data) =>
     items = $.map data, (notification) ->
-      "<a class='dropdown-item' href='#{notification.url}'>#{notification.actor} #{notification.action} #{notification.notifiable.type}</a>"
+      notification.template
 
-    $("[data-behavior='unread-count']").text(items.length)
+    unread_count = 0
+    $.each data, (i, notification) ->
+      if notification.unread
+        unread_count += 1
+
+    $("[data-behavior='unread-count']").text(unread_count)
     $("[data-behavior='notification-items']").html(items)
 
 jQuery ->
